@@ -23,3 +23,4 @@ for cash, label in transaction_history:
     else:
         mode_of_transaction.update({label : cash})
 # print(pd.DataFrame(mode_of_transaction.items()))
+###
