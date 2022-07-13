@@ -1,7 +1,6 @@
 # Libraries
 import pandas as pd
 import os
-import streamlit as st
 
 # Selecting which execl to read.
 path = "C:/Devish/transaction history"
