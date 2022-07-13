@@ -30,7 +30,3 @@ def transaction_mode(dataframe):
             mode_of_transaction.update({label : cash})
             # print(pd.DataFrame(mode_of_transaction.items()))
     return(mode_of_transaction)
-
-i = select_file()
-dataframe = reading_excel(i)
-print(dataframe)

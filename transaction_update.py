@@ -26,8 +26,3 @@ def appending_excel(file_index):
     input_dataframe = pd.DataFrame({"Date" : ["assa"], "Time" : ["1231"], "Amount of transaction" : [1235],	"Initial amount" : [45645], "Final Amount" : [65465], "Mode of transaction" : ["adad"], "Tansaction id" : ["sdads"], "Alert" : ["asdas"],	"Error: Reason" : ["adsda"]})
     dataframe = pd.concat([dataframe, input_dataframe], ignore_index = True)
     dataframe.to_excel(path + '/' + files[file_index], sheet_name='Sheet1', index = False)
-    
-
-
-i = selecting_right_file()
-appending_excel(i)
