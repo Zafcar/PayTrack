@@ -1,4 +1,5 @@
 # Libraries
+from csv import excel_tab
 import pandas as pd
 import os
 
@@ -7,9 +8,10 @@ path = "C:/Devish/transaction history"
 files = os.listdir(path)
 
 def select_file():
+    excel_index = {}
     for i, file in enumerate(files):
-        print(i, file)
-    return(int(input("Enter the file index to read xlsx: ")))
+        excel_index[file] = i
+    return(files, excel_index)
 
 
 def reading_excel(file_index):
@@ -30,3 +32,9 @@ def transaction_mode(dataframe):
             mode_of_transaction.update({label : cash})
             # print(pd.DataFrame(mode_of_transaction.items()))
     return(mode_of_transaction)
+
+
+def cashflow(dataframe):
+    in_flow = 0
+    out_flow = 0
+    f
