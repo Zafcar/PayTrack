@@ -37,4 +37,19 @@ def transaction_mode(dataframe):
 def cashflow(dataframe):
     in_flow = 0
     out_flow = 0
-    f
+    payment_history = dataframe.iloc[:, [2]].values
+    for i in payment_history:
+        if(i > 0):
+            in_flow += i
+        else:
+            out_flow += i
+    # print(in_flow + out_flow)
+    return(float(in_flow), float(out_flow))
+
+    
+
+    
+
+
+# dataframe = reading_excel(1)
+# cashflow(dataframe)
