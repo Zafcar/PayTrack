@@ -46,6 +46,12 @@ def cashflow(dataframe):
     # print(in_flow + out_flow)
     return(float(in_flow), float(out_flow))
 
+
+def data_base_transaction(dataframe):
+    date_base_mode = {}
+    transaction_date = dataframe.iloc[:, [0, 2]].values
+    for date, cash in transaction_date:
+
     
 
     
