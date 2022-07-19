@@ -1,7 +1,5 @@
-import pandas as pd
 import streamlit as st
-import altair as alt
-import numpy as np
+from bokeh.plotting import figure
 from transaction_statistics import *
 
 excel_files, excel_index = select_file()
@@ -25,4 +23,14 @@ else:
 col2.markdown(f'<h1 style="color:#33cc33;">↑ {str(round(in_flow, 2))}</h1>', unsafe_allow_html=True)
 col3.markdown(f'<h1 style="color:#ff0000;">↓ {str(round(out_flow, 2))}</h1>', unsafe_allow_html=True)
 
+
 # Displaying graph based on date.
+# date_cash = data_base_transaction(dataframe)
+# transaction_chart = figure(
+#      title='simple line example',
+#      x_axis_label='Date',
+#      y_axis_label='Cash')
+
+# transaction_chart.line(date_cash.keys, date_cash.values, legend_label='Trend', line_width=2)
+
+# st.bokeh_chart(transaction_chart, use_container_width=True)
