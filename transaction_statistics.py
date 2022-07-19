@@ -1,5 +1,5 @@
 # Libraries
-from csv import excel_tab
+import datetime
 import pandas as pd
 import os
 
@@ -30,7 +30,7 @@ def transaction_mode(dataframe):
             mode_of_transaction[label] += cash
         else:
             mode_of_transaction.update({label : cash})
-            # print(pd.DataFrame(mode_of_transaction.items()))
+    # print(pd.DataFrame(mode_of_transaction.items()))
     return(mode_of_transaction)
 
 
@@ -48,10 +48,16 @@ def cashflow(dataframe):
 
 
 def data_base_transaction(dataframe):
-    date_base_mode = {}
+    date_cash = {}
     transaction_date = dataframe.iloc[:, [0, 2]].values
     for date, cash in transaction_date:
-
+        date_str = date.strftime("%d/%m/%Y")
+        if(date_str in date_cash.keys()):
+            date_cash[date_str] += cash
+        else:
+            date_cash.update({date_str : cash})
+    # print(pd.DataFrame(date_base_mode.items()))
+    return(date_cash)
     
 
     
@@ -59,3 +65,4 @@ def data_base_transaction(dataframe):
 
 # dataframe = reading_excel(1)
 # cashflow(dataframe)
+# data_base_transaction(dataframe)
