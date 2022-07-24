@@ -1,5 +1,4 @@
 import streamlit as st
-import pandas as pd
 from transaction_statistics import *
 
 excel_files, excel_index = select_file()
@@ -35,4 +34,4 @@ col3.markdown(f'<h1 style="color:#ff0000;"><span style = "font-size: 20px;">Cash
 
 # st.bokeh_chart(transaction_chart, use_container_width=True)
 
-st.area_chart(pd.DataFrame(data_base_transaction(dataframe)))
+# st.area_chart(pd.DataFrame(data_base_transaction(dataframe)))
