@@ -1,5 +1,6 @@
 # Libraries
 import datetime
+from sqlite3 import Date
 import pandas as pd
 import os
 
@@ -48,15 +49,17 @@ def cashflow(dataframe):
 
 
 def data_base_transaction(dataframe):
-    date_cash = {}
+    date_cash = {"Date" : [], "Cash outflow" : []}
     transaction_date = dataframe.iloc[:, [0, 2]].values
     for date, cash in transaction_date:
         date_str = date.strftime("%d/%m/%Y")
-        if(date_str in date_cash.keys()):
-            date_cash[date_str] += cash
-        else:
-            date_cash.update({date_str : cash})
-    # print(pd.DataFrame(date_base_mode.items()))
+        if(cash< 0):
+            if(date_str in date_cash["Date"]):
+                date_cash["Cash outflow"][len(date_cash["Cash outflow"]) - 1] += int(-1 * cash)
+            else:
+                date_cash["Date"].append(date_str)
+                date_cash["Cash outflow"].append(int(-1 * cash))
+    # print(pd.DataFrame(date_cash))
     return(date_cash)
     
 
