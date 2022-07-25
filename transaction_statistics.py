@@ -4,8 +4,9 @@ from sqlite3 import Date
 import pandas as pd
 import os
 
-# Selecting which execl to read.
+# Path where the excel sheets exist.
 path = "C:/Devish/transaction history"
+# Returns a list of excel sheets present in the path.
 files = os.listdir(path)
 
 def select_file():
@@ -36,6 +37,7 @@ def transaction_mode(dataframe):
 
 
 def cashflow(dataframe):
+    #This records cash which flows in and out. 
     in_flow = 0
     out_flow = 0
     payment_history = dataframe.iloc[:, [2]].values
@@ -48,19 +50,19 @@ def cashflow(dataframe):
     return(float(in_flow), float(out_flow))
 
 
-def data_base_transaction(dataframe):
-    date_cash = {"Date" : [], "Cash outflow" : []}
-    transaction_date = dataframe.iloc[:, [0, 2]].values
-    for date, cash in transaction_date:
-        date_str = date.strftime("%d/%m/%Y")
-        if(cash< 0):
-            if(date_str in date_cash["Date"]):
-                date_cash["Cash outflow"][len(date_cash["Cash outflow"]) - 1] += int(-1 * cash)
-            else:
-                date_cash["Date"].append(date_str)
-                date_cash["Cash outflow"].append(int(-1 * cash))
-    # print(pd.DataFrame(date_cash))
-    return(date_cash)
+# def data_base_transaction(dataframe):
+#     date_cash = {"Date" : [], "Cash outflow" : []}
+#     transaction_date = dataframe.iloc[:, [0, 2]].values
+#     for date, cash in transaction_date:
+#         date_str = date.strftime("%d/%m/%Y")
+#         if(cash< 0):
+#             if(date_str in date_cash["Date"]):
+#                 date_cash["Cash outflow"][len(date_cash["Cash outflow"]) - 1] += -1 * cash
+#             else:
+#                 date_cash["Date"].append(date_str)
+#                 date_cash["Cash outflow"].append(-1 * cash)
+#     # print(pd.DataFrame(date_cash))
+#     return(date_cash)
     
 
     
