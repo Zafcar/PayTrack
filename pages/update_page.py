@@ -5,7 +5,7 @@ import datetime
 
 current_time = datetime.datetime.now()
 current_date = datetime.date.today()
-
+index = selecting_right_file()
 
 # Input widgets.
 def input_widgets():
@@ -47,12 +47,21 @@ def input_widgets():
             transaction_id = icici_mode_transaction
         # st.write(transaction_id)
 
+    col_alert, col_reason = st.columns(2)
+    alert = col_alert.radio("Any problems detected in the transaction", ('Yes', 'No'))
+    reason = "NONE"
+    if(alert == "Yes"):
+        reason = col_reason.text_input("Type the reason of the problem")
+    
+    return(date, time)
 
-input_widgets()
+date, time = input_widgets()
 
+button = st.button('Say hello')
+if(button):
+    values = {"Date" : [datetime.strptime(date, '%y/%m/%d')], "Time" : [datetime.strptime(time, '%H:%M:%S')], "Amount of transaction" : [1235],	"Initial amount" : [45645], "Final Amount" : [65465], "Mode of transaction" : ["adad"], "Tansaction id" : ["sdads"], "Alert" : ["asdas"],	"Error: Reason" : ["adsda"]}
+    appending_excel(index)
 
-
-# index = selecting_right_file()
-# dataframe = reading_excel(index)
-# display_dataframe = dataframe.astype(str)
-# st.dataframe(display_dataframe)
+if(button or True):
+    display_dataframe = reading_excel(index).astype(str)
+    st.dataframe(display_dataframe)
