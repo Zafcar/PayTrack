@@ -15,7 +15,7 @@ st.dataframe(display_dataframe)
 col1, col2, col3 = st.columns(3)
 in_flow, out_flow = cashflow(dataframe)
 total_amount_spend, amount_added, amount_spend = st.columns(3)
-if(in_flow + out_flow > 0):
+if(in_flow + out_flow >= 0):
      col1.markdown(f'<h1 style="color:#33cc33;"><span style = "font-size: 20px;">Total cash flow</span><br>↑ ₹{str(round(in_flow + out_flow, 2))}</h1>', unsafe_allow_html=True)
 else:
      col1.markdown(f'<h1 style="color:#ff0000;"><span style = "font-size: 20px;">Total cash flow</span><br>↓ ₹{str(round(in_flow + out_flow, 2))}</h1>', unsafe_allow_html=True)
