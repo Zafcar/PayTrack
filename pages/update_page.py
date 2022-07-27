@@ -6,6 +6,7 @@ import datetime
 current_time = datetime.datetime.now()
 current_date = datetime.date.today()
 index = selecting_right_file()
+dataframe = reading_excel(index)
 
 # Input widgets.
 def input_widgets():
@@ -15,6 +16,7 @@ def input_widgets():
     date = col_date.date_input("Date of transaction", datetime.date(int(current_date.strftime("%Y")), int(current_date.strftime("%m")), int(current_date.strftime("%d"))))
     time = col_time.text_input('Time of transaction', current_time.strftime("%H")+":"+ current_time.strftime("%M"))
     # This done to prevent user from typing characters apart from numbers.
+    transaction_value = 0
     try:
         transaction_value = int(col_amount_transaction.text_input('Transaction Amount'))
     except:
@@ -52,16 +54,17 @@ def input_widgets():
     reason = "NONE"
     if(alert == "Yes"):
         reason = col_reason.text_input("Type the reason of the problem")
-    
-    return(date, time)
+    # st.write(date)
+    # return({"Date" : [datetime.datetime.strptime(date, '%y/%m/%d')], "Time" : [datetime.datetime.strptime(time, '%H:%M:%S')], "Amount of transaction" : [transaction_value ],	"Initial amount" : [dataframe.iloc[-1, 4]], "Final Amount" : [dataframe.iloc[-1, 4] - transaction_value], "Mode of transaction" : [mode_transaction], "Tansaction id" : [transaction_id], "Alert" : [alert],	"Error: Reason" : [reason]})
+    return({"Date" : [date], "Time" : [time], "Amount of transaction" : [transaction_value],	"Initial amount" : [dataframe.iloc[-1, 4]], "Final Amount" : [dataframe.iloc[-1, 4] - transaction_value], "Mode of transaction" : [mode_transaction], "Tansaction id" : [transaction_id], "Alert" : [alert],	"Error: Reason" : [reason]})
 
-date, time = input_widgets()
+append_values = input_widgets()
 
-button = st.button('Say hello')
+button = st.button('Confirm')
+
 if(button):
-    values = {"Date" : [datetime.strptime(date, '%y/%m/%d')], "Time" : [datetime.strptime(time, '%H:%M:%S')], "Amount of transaction" : [1235],	"Initial amount" : [45645], "Final Amount" : [65465], "Mode of transaction" : ["adad"], "Tansaction id" : ["sdads"], "Alert" : ["asdas"],	"Error: Reason" : ["adsda"]}
-    appending_excel(index)
+    appending_excel(index, append_values)
 
 if(button or True):
-    display_dataframe = reading_excel(index).astype(str)
+    display_dataframe = dataframe.astype(str)
     st.dataframe(display_dataframe)
