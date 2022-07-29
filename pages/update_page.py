@@ -16,11 +16,8 @@ def input_widgets():
     date = col_date.date_input("Date of transaction", datetime.date(int(current_date.strftime("%Y")), int(current_date.strftime("%m")), int(current_date.strftime("%d"))))
     time = col_time.text_input('Time of transaction', current_time.strftime("%H")+":"+ current_time.strftime("%M"))
     # This done to prevent user from typing characters apart from numbers.
-    transaction_value = 0
-    try:
-        transaction_value = int(col_amount_transaction.text_input('Transaction Amount'))
-    except:
-        st.error('Enter proper Transaction Amount')
+    transaction_value = col_amount_transaction.number_input('Transaction Amount', step = 1)
+    
 
     # Includes input widgets for mode of transaction.
     # Based on input given in mode mode_transaction other widgets get displayed and necessary inputs are taken in. 
@@ -56,7 +53,7 @@ def input_widgets():
         reason = col_reason.text_input("Type the reason of the problem")
     # st.write(date)
     # return({"Date" : [datetime.datetime.strptime(date, '%y/%m/%d')], "Time" : [datetime.datetime.strptime(time, '%H:%M:%S')], "Amount of transaction" : [transaction_value ],	"Initial amount" : [dataframe.iloc[-1, 4]], "Final Amount" : [dataframe.iloc[-1, 4] - transaction_value], "Mode of transaction" : [mode_transaction], "Tansaction id" : [transaction_id], "Alert" : [alert],	"Error: Reason" : [reason]})
-    return({"Date" : [date], "Time" : [time], "Amount of transaction" : [transaction_value],	"Initial amount" : [dataframe.iloc[-1, 4]], "Final Amount" : [dataframe.iloc[-1, 4] - transaction_value], "Mode of transaction" : [mode_transaction], "Tansaction id" : [transaction_id], "Alert" : [alert],	"Error: Reason" : [reason]})
+    return({"Date" : [date], "Time" : [time], "Amount of transaction" : [transaction_value],	"Initial amount" : [dataframe.iloc[-1, 4]], "Final Amount" : [dataframe.iloc[-1, 4] + transaction_value], "Mode of transaction" : [mode_transaction], "Tansaction id" : [transaction_id], "Alert" : [alert],	"Error: Reason" : [reason]})
 
 append_values = input_widgets()
 
@@ -66,5 +63,5 @@ if(button):
     appending_excel(index, append_values)
 
 if(button or True):
-    display_dataframe = dataframe.astype(str)
+    display_dataframe = reading_excel(index).astype(str)
     st.dataframe(display_dataframe)
