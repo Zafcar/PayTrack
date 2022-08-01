@@ -1,15 +1,20 @@
-from warnings import catch_warnings
 import streamlit as st
 from transaction_update import *
 import datetime
 
-current_time = datetime.datetime.now()
-current_date = datetime.date.today()
+# Global variables.
 index = selecting_right_file()
 dataframe = reading_excel(index)
+df_is_empty = dataframe.empty
+
+# Gets current time and date.
+current_time = datetime.datetime.now()
+current_date = datetime.date.today()
+    
 
 # Input widgets.
 def input_widgets():
+    
     
     # Includes input widgets for date, time and amount of transaction. 
     col_date, col_time, col_amount_transaction = st.columns(3)
@@ -53,10 +58,23 @@ def input_widgets():
         reason = col_reason.text_input("Type the reason of the problem")
     # st.write(date)
     # return({"Date" : [datetime.datetime.strptime(date, '%y/%m/%d')], "Time" : [datetime.datetime.strptime(time, '%H:%M:%S')], "Amount of transaction" : [transaction_value ],	"Initial amount" : [dataframe.iloc[-1, 4]], "Final Amount" : [dataframe.iloc[-1, 4] - transaction_value], "Mode of transaction" : [mode_transaction], "Tansaction id" : [transaction_id], "Alert" : [alert],	"Error: Reason" : [reason]})
-    return({"Date" : [date], "Time" : [time], "Amount of transaction" : [transaction_value],	"Initial amount" : [dataframe.iloc[-1, 4]], "Final Amount" : [dataframe.iloc[-1, 4] + transaction_value], "Mode of transaction" : [mode_transaction], "Tansaction id" : [transaction_id], "Alert" : [alert],	"Error: Reason" : [reason]})
+    if(df_is_empty):
+        intial_amount = input_intial_amount
+    else:
+        intial_amount = dataframe.iloc[-1, 4]
 
+    return({"Date" : [date], "Time" : [time], "Amount of transaction" : [transaction_value],	"Initial amount" : [intial_amount], "Final Amount" : [intial_amount + transaction_value], "Mode of transaction" : [mode_transaction], "Tansaction id" : [transaction_id], "Alert" : [alert],	"Error: Reason" : [reason]})
+
+
+# This checks if the dataframe is empty or not and checks whether to add initial values.
+if(df_is_empty):
+    input_intial_amount = st.number_input('Enter initial amount', step = 1)
+    if(input_intial_amount < 0):
+        st.error("Please enter the intial amount")
 append_values = input_widgets()
 
+
+# This button appends all the values.
 button = st.button('Confirm')
 
 if(button):
