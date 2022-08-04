@@ -2,7 +2,7 @@
 import pandas as pd
 import os
 import openpyxl
-from openpyxl.styles import PatternFill
+
 
 # Path where the excel sheets exist.
 path = "C:/Devish/transaction history"
@@ -26,9 +26,11 @@ def selecting_right_file():
             return(i)
     # If the excel sheet of the current year is not present it will create a new excel sheet.
     intial_dataframe = pd.DataFrame({"Date" : [], "Time" : [], "Amount of transaction" : [], "Initial amount" : [], "Final Amount" : [], "Mode of transaction" : [], "Tansaction id" : [],"Alert" : [], "Error: Reason" : []})
-    new_excel = pd.ExcelWriter(path + "/" + f"transaction_history({year}).xlsx", engine = 'xlsxwriter')
+    # new_excel = pd.ExcelWriter(path + "/" + f"transaction_history({year}).xlsx", engine = 'xlsxwriter')
+    new_excel = openpyxl.Workbook()
+    new_excel.save(path)
     intial_dataframe.to_excel(new_excel, sheet_name = "Sheet1", index = False)
-    new_excel.save()
+    # new_excel.save()
     # new_excel.close()
     files.append(f"transaction_history({year}).xlsx")
     return(len(files) - 1)
@@ -47,9 +49,9 @@ def alert_color_fix(dataframe, file_index):
     read_excel_sheet = excel['Sheet1']
     errors = dataframe.iloc[:, [-1]].values
     for i, j in enumerate(errors):
-        cell_color = PatternFill(patternType='solid', fgColor='35FC03')
+        cell_color = openpyxl.styles.PatternFill(patternType='solid', fgColor='35FC03')
         if(j != "NONE"):
             # For red color if cell alert is yes in the transaction.
-            cell_color = PatternFill(patternType='solid', fgColor='FC2C03')
+            cell_color = openpyxl.styles.PatternFill(patternType='solid', fgColor='FC2C03')
         read_excel_sheet["H" + str(i + 2)].fill = cell_color
     excel.save(path + '/' + files[file_index])
