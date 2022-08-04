@@ -14,8 +14,9 @@ current_date = datetime.date.today()
 
 # Input widgets.
 def input_widgets():
-    
-    
+
+    button = False
+
     # Includes input widgets for date, time and amount of transaction. 
     col_date, col_time, col_amount_transaction = st.columns(3)
     date = col_date.date_input("Date of transaction", datetime.date(int(current_date.strftime("%Y")), int(current_date.strftime("%m")), int(current_date.strftime("%d"))))
@@ -23,7 +24,6 @@ def input_widgets():
     # This done to prevent user from typing characters apart from numbers.
     transaction_value = col_amount_transaction.number_input('Transaction Amount', step = 1)
     
-
     # Includes input widgets for mode of transaction.
     # Based on input given in mode mode_transaction other widgets get displayed and necessary inputs are taken in. 
     mode_transaction = st.selectbox('Select the mode if transaction', ("GPAY", "Paytm", "ICICI"))
@@ -63,7 +63,11 @@ def input_widgets():
     else:
         intial_amount = dataframe.iloc[-1, 4]
 
-    return({"Date" : [date], "Time" : [time], "Amount of transaction" : [transaction_value],	"Initial amount" : [intial_amount], "Final Amount" : [intial_amount + transaction_value], "Mode of transaction" : [mode_transaction], "Tansaction id" : [transaction_id], "Alert" : [alert],	"Error: Reason" : [reason]})
+    # This button appends all the values.
+    if(transaction_value != 0 and transaction_id != "" and reason != ""):
+        button = st.button('Confirm')
+
+    return({"Date" : [date], "Time" : [time], "Amount of transaction" : [transaction_value],	"Initial amount" : [intial_amount], "Final Amount" : [intial_amount + transaction_value], "Mode of transaction" : [mode_transaction], "Tansaction id" : [transaction_id], "Alert" : [""],	"Error: Reason" : [reason]}, button)
 
 
 # This checks if the dataframe is empty or not and checks whether to add initial values.
@@ -71,14 +75,13 @@ if(df_is_empty):
     input_intial_amount = st.number_input('Enter initial amount', step = 1)
     if(input_intial_amount < 0):
         st.error("Please enter the intial amount")
-append_values = input_widgets()
 
 
-# This button appends all the values.
-button = st.button('Confirm')
+append_values, button = input_widgets()
 
 if(button):
     appending_excel(index, append_values)
+    alert_color_fix(reading_excel(index), index)
 
 if(button or True):
     display_dataframe = reading_excel(index).astype(str)
