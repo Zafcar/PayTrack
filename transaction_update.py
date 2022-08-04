@@ -1,7 +1,8 @@
 # Libraries
 import pandas as pd
 import os
-import datetime
+import openpyxl
+from openpyxl.styles import PatternFill
 
 # Path where the excel sheets exist.
 path = "C:/Devish/transaction history"
@@ -38,3 +39,17 @@ def appending_excel(file_index, append_values):
     input_dataframe = pd.DataFrame(append_values)
     dataframe = pd.concat([dataframe, input_dataframe], ignore_index = True)
     dataframe.to_excel(path + '/' + files[file_index], sheet_name='Sheet1', index = False)
+    
+
+# This metheod adds color to column Alerts.
+def alert_color_fix(dataframe, file_index):
+    excel = openpyxl.load_workbook(path + '/' + files[file_index])
+    read_excel_sheet = excel['Sheet1']
+    errors = dataframe.iloc[:, [-1]].values
+    for i, j in enumerate(errors):
+        cell_color = PatternFill(patternType='solid', fgColor='35FC03')
+        if(j != "NONE"):
+            # For red color if cell alert is yes in the transaction.
+            cell_color = PatternFill(patternType='solid', fgColor='FC2C03')
+        read_excel_sheet["H" + str(i + 2)].fill = cell_color
+    excel.save(path + '/' + files[file_index])
