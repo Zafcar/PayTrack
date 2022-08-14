@@ -2,15 +2,14 @@ import streamlit as st
 from transaction_update import *
 import datetime
 
-# Global variables.
-index = selecting_right_file()
-dataframe = reading_excel(index)
-df_is_empty = dataframe.empty
-
 # Gets current time and date.
 current_time = datetime.datetime.now()
 current_date = datetime.date.today()
-    
+
+# Global variables.
+index = selecting_right_file(current_date.strftime("%Y"))
+dataframe = reading_excel(index)
+df_is_empty = dataframe.empty
 
 # Input widgets.
 def input_widgets():
@@ -19,7 +18,7 @@ def input_widgets():
 
     # Includes input widgets for date, time and amount of transaction. 
     col_date, col_time, col_amount_transaction = st.columns(3)
-    date = col_date.date_input("Date of transaction", datetime.date(int(current_date.strftime("%Y")), int(current_date.strftime("%m")), int(current_date.strftime("%d"))))
+    date = col_date.date_input("Date of transaction", datetime.date(current_date.year, current_date.month, current_date.day))
     time = col_time.text_input('Time of transaction', current_time.strftime("%H")+":"+ current_time.strftime("%M"))
     # This done to prevent user from typing characters apart from numbers.
     transaction_value = col_amount_transaction.number_input('Transaction Amount', step = 1)
@@ -72,9 +71,13 @@ def input_widgets():
 
 # This checks if the dataframe is empty or not and checks whether to add initial values.
 if(df_is_empty):
-    input_intial_amount = st.number_input('Enter initial amount', step = 1)
-    if(input_intial_amount < 0):
-        st.error("Please enter the intial amount")
+    if(pervious_year(current_date.year - 1)):
+        temp_dataframe = reading_excel(index - 1)
+        input_intial_amount  = temp_dataframe.iloc[-1, 4]
+    else:
+        input_intial_amount = st.number_input('Enter initial amount', step = 1)
+        if(input_intial_amount < 0):
+            st.error("Please enter proper amount")
 
 
 append_values, button = input_widgets()
