@@ -5,7 +5,8 @@ import pandas as pd
 import os
 
 # Path where the excel sheets exist.
-path = "C:/Devish/transaction history"
+path = "/home/Zafcar/Dropbox/C S V Devish/ICICI bank/transaction history"
+
 # Returns a list of excel sheets present in the path.
 files = os.listdir(path)
 

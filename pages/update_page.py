@@ -21,7 +21,7 @@ def input_widgets():
     date = col_date.date_input("Date of transaction", datetime.date(current_date.year, current_date.month, current_date.day))
     time = col_time.text_input('Time of transaction', current_time.strftime("%H")+":"+ current_time.strftime("%M"))
     # This done to prevent user from typing characters apart from numbers.
-    transaction_value = col_amount_transaction.number_input('Transaction Amount', step = 1)
+    transaction_value = col_amount_transaction.number_input('Transaction Amount', step = 1.00)    
     
     # Includes input widgets for mode of transaction.
     # Based on input given in mode mode_transaction other widgets get displayed and necessary inputs are taken in. 
@@ -39,13 +39,17 @@ def input_widgets():
         # st.write(transaction_id)
         
     elif(mode_transaction == "ICICI"):
-        icici_mode_transaction = st.selectbox('Select the mode if transaction for ICICI', ("Interest at the end of the month", "NEFT", "INFT", "SMS Charge", "ATM CARD"))
+        icici_mode_transaction = st.selectbox('Select the mode if transaction for ICICI', ("Interest at the end of the month", "NEFT", "INFT", "IMPS", "SMS Charge", "ATM CARD"))
         if(icici_mode_transaction == "NEFT"):
             transaction_id = "NEFT: " + st.text_input("Enter NEFT number")
         elif(icici_mode_transaction == "INFT"):
             transaction_id = "INFT: " + st.text_input("Enter INFT number")
         elif(icici_mode_transaction == "SMS Charge"):
             transaction_id = "Tansaction id: " + st.text_input("Tansaction id")
+        
+        elif(icici_mode_transaction == "IMPS"):
+            transaction_id = "Transaction id: " + st.text_input("Transaction id")
+        
         else:
             transaction_id = icici_mode_transaction
         # st.write(transaction_id)
