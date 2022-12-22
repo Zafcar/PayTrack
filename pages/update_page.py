@@ -39,9 +39,12 @@ def input_widgets():
         # st.write(transaction_id)
         
     elif(mode_transaction == "ICICI"):
-        icici_mode_transaction = st.selectbox('Select the mode if transaction for ICICI', ("Interest at the end of the month", "NEFT", "INFT", "IMPS", "BIL", "SMS Charge", "ATM CARD", "Debit Card Charge"))
+        icici_mode_transaction = st.selectbox('Select the mode if transaction for ICICI', ("Interest at the end of the month", "Net Banking", "NEFT", "INFT", "IMPS", "BIL", "SMS Charge", "ATM CARD", "Debit Card Charge"))
         if(icici_mode_transaction == "NEFT"):
             transaction_id = "NEFT: " + st.text_input("Enter NEFT number")
+        elif(icici_mode_transaction == 'Net Banking'):
+            transaction_id = "UPI id: " + st.text_input("Enter UPI id") 
+
         elif(icici_mode_transaction == "BIL"):
             transaction_id = "BIL: " + st.text_input("Enter BIL number")
 
